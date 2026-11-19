@@ -8,21 +8,21 @@ route.post('/login',async (req,res)=>{
     if(Name === undefined || Password === undefined)
     {
          
-        return res.status(404).json({message : "rossz adatbevitel"})
+        return res.status(404).json({message : "rossz adatbevitel"});
     }
     let passwordHash = await bcrypt.hash(Password,10);
     const sql = `INSERT INTO users (userid,username,password,role) VALUES(NULL,?,?,'user')`;
     try {
-        const resoult =await db.query(sql,[Name,passwordHash])    
+        const resoult =await db.query(sql,[Name,passwordHash]);
         const affectedRows = resoult.affectedRows;
         if (affectedRows===0) {
-            return res.status(400).json({error : "A post nem történt meg"})
+            return res.status(400).json({error : "A post nem történt meg"});
         } else {
             return res.status(201).json({message: "Sikeres Registráció"});        
         }
     } 
     catch (error) {
-        return res.status(500).json({error : error})
+        return res.status(500).json({error : error});
     }    
 })
-export default route
+export default route;
