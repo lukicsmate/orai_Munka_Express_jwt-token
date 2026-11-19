@@ -1,5 +1,5 @@
 import express from 'express'
-const route = express().Router()
+const route = express()
 route.use(express.json())
 route.delete('/user/:id',async (req,res)=>{
     let id = req.params.id;

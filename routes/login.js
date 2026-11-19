@@ -2,9 +2,9 @@ import express from 'express'
 import db from '../dataBase/db.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-const route = express().Router()
+const route = express()
 route.use(express.json())
-route.post('/login',async (req,res)=>{
+route.post('/',async (req,res)=>{
     let {Name,Password} = req.body ?? {};
     if(Name === undefined || Password === undefined)
     {     
@@ -22,4 +22,4 @@ route.post('/login',async (req,res)=>{
     }
     
 })
-export default route
+export default route;

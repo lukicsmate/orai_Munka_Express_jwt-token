@@ -1,7 +1,7 @@
 import express from 'express'
-const route = express().Router()
+const route = express()
 route.use(express.json())
-route.post('/profil',async (req,res)=>{
+route.post('/profil/:id',async (req,res)=>{
     return res.status(201).json({message: "profil létrehozva"});
 })
 export default route
