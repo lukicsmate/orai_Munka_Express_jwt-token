@@ -11,15 +11,16 @@ route.post('/',async (req,res)=>{
         return res.status(404).json({message : "rossz adatbevitel"});
     }
     const SelectSql = `SELECT username,role,password FROM users WHERE username = ?`;
+    const [select] = await db.query(SelectSql,[Name])    
+    console.log(select);
     try {
-        const [select] = await db.query(SelectSql,[Name])    
+        const compare = await bcrypt.compare(Password,select[0].password);
+        if(compare){
+            const token = jwt.sign({userName : Name,},process.env.JWT_SECRET, {expiresIn:"1h"});
+            return res.status(200).json({message : "sikeres login",token});
+        }
     } catch (error) {
-        return res.status(500).json({error:error})
+        return res.status(500).json({error:"error hiba"});
     }
-    const compare = await bcrypt.compare(Password,select);
-    if(compare){
-        jwt.sign({userName : Name,},process.env.JWT_SECRET, {expiresIn:"1h"})
-    }
-    
 })
 export default route;
