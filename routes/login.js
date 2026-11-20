@@ -10,13 +10,22 @@ route.post('/',async (req,res)=>{
     {     
         return res.status(404).json({message : "rossz adatbevitel"});
     }
-    const SelectSql = `SELECT id,username,role,password FROM users WHERE username = ?`;
-    const [select] = await db.query(SelectSql,[Name])    
+    const SelectSql = `SELECT userid,username,role,password FROM users WHERE username = ?`;
+    const [select] = await db.query(SelectSql,[Name])  
+    const user = select[0];
     console.log(select);
     try {
         const compare = await bcrypt.compare(Password,select[0].password);
         if(compare){
-            const token = jwt.sign({id:select[0].id,userName : Name,role : select[0].role},process.env.JWT_SECRET, {expiresIn:"1h"});
+            const token = jwt.sign(
+                {userid:user.userid,
+                 userName : user.username,
+                 role : user.role},
+                 process.env.JWT_SECRET, 
+                 {
+                    expiresIn:"1h"
+                 }
+                );
             
             return res.status(200).json({message : "sikeres login",token});
         }
