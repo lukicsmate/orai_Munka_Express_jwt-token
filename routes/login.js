@@ -29,6 +29,9 @@ route.post('/',async (req,res)=>{
             
             return res.status(200).json({message : "sikeres login",token});
         }
+        else{
+            return res.status(404).json({error:"hibás bejelentkezési adatok"})
+        }
     } catch (error) {
         return res.status(500).json({error:"error hiba"});
     }
